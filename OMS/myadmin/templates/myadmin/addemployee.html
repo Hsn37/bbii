@@ -1,0 +1,94 @@
+{% extends nav %}
+{% block content %}
+
+<body>
+  <div class = "center-align">
+    <div class="row">
+      <div class="col s4 push-s4">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title"><h3>Add Employee</h3></span>
+            <form class="container" action= "/myadmin/addemployee/" method="POST">
+              {% csrf_token %}
+              <div class = "row">
+                <div class="input-field col s12">
+                    <input name="CNIC" id="CNIC" type="text" required>
+                    <label for="CNIC">CNIC</label>
+                  </div>
+                <div class="input-field col s12">
+                  <input name="name" id="name" type="text" value="{{result.Name}}" required>
+                  <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12">
+                  <input name="email" id="email" type="text" value="{{result.Email}}" required>
+                  <label for="email">Email</label>
+                </div>
+                <div class="input-field col s12">
+                  <input name="deptid" id="deptid" type="number" min="0" max="9" value="{{result.DeptID}}">
+                  <label for="deptid">Dept ID</label>
+                </div>
+                <div class="input-field col s12">
+                  <label style="margin-top: -20px;">Join Date</label>
+                  <input name="JoinDate" id="JoinDate" type="datetime-local" value="{{result.JoinDate}}" required>
+                </div>
+                <div class="input-field col s12">
+                  <label style="margin-top: -20px;">Contract End Date</label>
+                  <input name="EndDate" id="EndDate" type="datetime-local" value="{{result.ContractEndDate}}" required>
+                </div>
+                <div class="input-field col s12">
+                  <label style="margin-top: -20px;">Date of Birth</label>
+                  <input name="dateofbirth" id="dateofbirth" type="datetime-local" value="{{result.DateOfBirth}}" required>
+                </div>
+                <div class="input-field col s12">
+                  <input name="phone" id="phone" type="number" value="{{result.Phone}}">
+                  <label for="phone">Phone</label>
+                </div>
+                <div class="input-field col s12">
+                  <input name="salary" id="salary" type="number" value="{{result.Salary}}">
+                  <label for='salary'>Salary</label>
+                </div>
+                <div class="input-field col s12">
+                  <button class="btn waves-effect waves-light" type="submit" name="action">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+    $('form').on('submit', function() {
+
+var valid = true;
+var invalidStrings = ["--", "\"", "\'", "*", "where", "from", "?", "!", "=", ";"];
+
+$('form input').each(function() {
+  // for csfr middlwware token
+  if (this.type == "hidden")
+    return true
+
+  for(let i = 0; i < invalidStrings.length; i += 1)
+  {
+    if (this.value.includes(invalidStrings[i]))
+    {
+      alert("Invalid input. Sql injection, i see. xD");
+      valid = false;
+      return false;
+    }
+  }
+});
+
+return valid;
+});
+
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+</script>
+{% endblock %}

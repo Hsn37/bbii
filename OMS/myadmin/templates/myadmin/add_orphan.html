@@ -1,0 +1,95 @@
+{% extends nav %}
+{% block content %}
+
+<body>
+  <div class = "center-align">
+    <div class="row">
+      <div class="col s4 push-s4">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title"><h3>Add orphan</h3></span>
+            <form class="container" action= "addorphrec/" method="POST">
+              {% csrf_token %}
+              <div class = "row">
+                <div class="input-field col s12">
+                  <input name="CNIC" id="CNIC" type="text" required>
+                  <label for="CNIC">CNIC</label>
+                </div>
+                <div class="input-field col s12">
+                  <input name="name" id="name" type="text" required>
+                  <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12">
+                  <input name="specialneeds" id="specialneeds" type="text" >
+                  <label for="specialneeds">Special Needs (optional)</label>
+                </div>
+                <div class="input-field col s12">
+                  <label style="margin-top: -20px;" for="DateOfBirth">Date Of Birth</label>
+                  <input name="DateOfBirth" id="DateOfBirth" type="datetime-local" required>
+
+                </div>
+                <div class="input-field col s12">
+                  <select name="education" required>
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="Kindergarten">Kindergarten</option>
+                    <option value="Nursery">Nursery</option>
+                    <option value="Grade 1">Grade 1</option><option value="Grade 2">Grade 2</option><option value="Grade 3">Grade 3</option><option value="Grade 4">Grade 4</option><option value="Grade 5">Grade 5</option><option value="Grade 6">Grade 6</option><option value="Grade 7">Grade 7</option><option value="Grade 8">Grade 8</option><option value="O-Levels">O-Levels</option><option value="A-levels">A-levels</option>
+                  </select>
+                  <label>Education </label>
+                </div>
+                <div class="input-field col s12">
+                  <select name="sex" required>
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                    <option value="X">Other</option>
+                  </select>
+                  <label>Sex </label>
+                </div>
+                <div class="input-field col s12">
+                  <input name="hobbies" id="hobbies" type="text" >
+                  <label for="hobbies">Hobbies (optional)</label>
+                </div>                          
+                <div class="input-field col s12">
+                  <button class="btn waves-effect waves-light" type="submit" name="action">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script>
+  $('form').on('submit', function() {
+
+  var valid = true;
+  var invalidStrings = ["--", "\"", "\'", "*", "where", "from", "?", "!", "=", ";"];
+
+  $('form input').each(function() {
+    // for csfr middlwware token
+    if (this.type == "hidden")
+      return true
+
+    for(let i = 0; i < invalidStrings.length; i += 1)
+    {
+      if (this.value.includes(invalidStrings[i]))
+      {
+        alert("Invalid input. Sql injection, i see. xD");
+        valid = false;
+        return false;
+      }
+    }
+  });
+
+  return valid;
+});
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+
+</script>
+{% endblock %}
